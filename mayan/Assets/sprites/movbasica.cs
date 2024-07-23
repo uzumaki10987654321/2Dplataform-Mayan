@@ -26,11 +26,13 @@ public class movbasica : MonoBehaviour
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        verificarChao();
         movimentoHorizontal = Input.GetAxisRaw("Horizontal");
 
         rbPlayer.velocity = new Vector2(movimentoHorizontal*velocidade, rbPlayer.velocity.y);
@@ -40,19 +42,19 @@ public class movbasica : MonoBehaviour
             rbPlayer.AddForce(new Vector2(0, forcaPulo));
         }
 
-        if (Input.GetButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Atirar();
         }
 
-        anim.SetInteger("Run", (int)movimentoHorizontal);
+        anim.SetInteger("run", (int)movimentoHorizontal);
         anim.SetBool("sensor",sensor);
     }
 
 
     public void verificarChao()
     {
-        sensor = Physics2D.OverlapCircle(posicaoSensor.position, 0.34f); 
+        sensor = Physics2D.OverlapCircle(posicaoSensor.position, 0.01f); 
     }
 
     public void Flip()
@@ -62,6 +64,8 @@ public class movbasica : MonoBehaviour
         float x = transform.localScale.x * -1;
 
         transform.localScale = new Vector3(x, transform.localScale.y,transform.localScale.z);
+        velocidadeTiro *= -1;
+        municao.GetComponent<SpriteRenderer>().flipX = verificarDirecaoPersonagem;
     }
 
 
