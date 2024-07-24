@@ -41,6 +41,13 @@ public class movbasica : MonoBehaviour
         {
             rbPlayer.AddForce(new Vector2(0, forcaPulo));
         }
+        if(movimentoHorizontal > 0 && verificarDirecaoPersonagem == true)
+        {
+            Flip();
+        }if (movimentoHorizontal < 0 && verificarDirecaoPersonagem == false)
+        {
+            Flip();
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -54,7 +61,7 @@ public class movbasica : MonoBehaviour
 
     public void verificarChao()
     {
-        sensor = Physics2D.OverlapCircle(posicaoSensor.position, 0.01f); 
+        sensor = Physics2D.OverlapCircle(posicaoSensor.position, 0.1f); 
     }
 
     public void Flip()
@@ -74,5 +81,6 @@ public class movbasica : MonoBehaviour
         GameObject temporario = Instantiate(municao);
         temporario.transform.position = posicaoTiro.position;
         temporario.GetComponent<Rigidbody2D>().velocity = new Vector2(velocidadeTiro, 0);
+        
     }
 }
