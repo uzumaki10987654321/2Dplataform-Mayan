@@ -37,6 +37,11 @@ public class movbasica : MonoBehaviour
 
         rbPlayer.velocity = new Vector2(movimentoHorizontal*velocidade, rbPlayer.velocity.y);
 
+        if(sensor == true)
+        {
+            rbPlayer.velocity = Vector2.zero;
+        }
+
         if (Input.GetButtonDown("Jump") && sensor==true)
         {
             rbPlayer.AddForce(new Vector2(0, forcaPulo));
@@ -81,6 +86,6 @@ public class movbasica : MonoBehaviour
         GameObject temporario = Instantiate(municao);
         temporario.transform.position = posicaoTiro.position;
         temporario.GetComponent<Rigidbody2D>().velocity = new Vector2(velocidadeTiro, 0);
-        
+        anim.SetTrigger("Shoot");
     }
 }
