@@ -37,10 +37,10 @@ public class movbasica : MonoBehaviour
 
         rbPlayer.velocity = new Vector2(movimentoHorizontal*velocidade, rbPlayer.velocity.y);
 
-        if(sensor == true)
-        {
-            rbPlayer.velocity = Vector2.zero;
-        }
+        
+        
+           
+        
 
         if (Input.GetButtonDown("Jump") && sensor==true)
         {
