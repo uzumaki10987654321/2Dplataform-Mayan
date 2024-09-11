@@ -22,11 +22,16 @@ public class movbasica : MonoBehaviour
     public float velocidadeTiro;
 
 
-    private Animator anim;
+    Animator anim;
+
+    public bool ISGM;
+
+
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        ISGM = false;
     }
 
     // Update is called once per frame
@@ -87,5 +92,15 @@ public class movbasica : MonoBehaviour
         temporario.transform.position = posicaoTiro.position;
         temporario.GetComponent<Rigidbody2D>().velocity = new Vector2(velocidadeTiro, 0);
         anim.SetTrigger("Shoot");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Mun")
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+            ISGM = true;
+        }
     }
 }
