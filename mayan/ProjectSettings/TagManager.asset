@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Mun
+  - vida
+  - Enemy
   layers:
   - Default
   - TransparentFX

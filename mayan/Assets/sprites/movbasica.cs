@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class movbasica : MonoBehaviour
@@ -11,6 +12,9 @@ public class movbasica : MonoBehaviour
     public float forcaPulo;
     public Transform posicaoSensor;
     public bool sensor;
+    public GameObject temp;
+
+    private SpriteRenderer _spr;
 
 
     //criar uma variável para verificar a direção
@@ -20,6 +24,11 @@ public class movbasica : MonoBehaviour
     public GameObject municao;
     public Transform posicaoTiro;
     public float velocidadeTiro;
+
+    //Ganhar vida
+    public int contadordevida;
+    public int vidaAtual;
+    public TextMeshProUGUI textVida;
 
 
     Animator anim;
@@ -32,6 +41,7 @@ public class movbasica : MonoBehaviour
         rbPlayer = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         ISGM = false;
+        _spr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -102,5 +112,44 @@ public class movbasica : MonoBehaviour
             Destroy(gameObject);
             ISGM = true;
         }
+        //Ganhar vida 
+        if(collision.gameObject.tag == "vida")
+        {
+            contadordevida++;
+            vidaAtual = vidaAtual + contadordevida;
+            textVida.text = vidaAtual.ToString();
+            Destroy(collision.gameObject);
+        }
+        //Perder vida
+        if (collision.gameObject.tag == "Enemy")
+        {
+            vidaAtual--;
+            textVida.text = vidaAtual.ToString();
+            Destroy (collision.gameObject);
+        }
+        //invencibilidade
+        if ((collision.gameObject.tag == "Moita"))
+        { 
+            if(vidaAtual > 0)
+            {
+                temp = collision.gameObject;
+                vidaAtual--;
+                StartCoroutine(TempoDano());
+            }
+        }
     }
+    IEnumerator TempoDano()
+    {
+        temp.gameObject.tag = "invencivel";
+
+        for (int i = 0; i < vidaAtual; i++)
+        {
+            _spr.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
+            _spr.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+        }
+        temp.gameObject.tag = "Moita";
+    }
+  
 }
